@@ -10,9 +10,9 @@ public class Main {
     public static void main(String[] args) {
         // Create a list of courses
         ArrayList<Course> courses = new ArrayList<>();
-        courses.add(new Course("Java Programming", "CS101", 5));
-        courses.add(new Course("Web Development", "CS102", 3));
-        courses.add(new Course("Data Structures", "CS103", 2));
+        courses.add(new Course("Software Development", "CS101", 5));
+        courses.add(new Course("Business", "CS102", 3));
+        courses.add(new Course("Accounting", "CS103", 2));
 
         // Get student details
         Scanner scanner = new Scanner(System.in);
