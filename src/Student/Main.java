@@ -71,7 +71,7 @@ System.out.println("You have registered course: " + selectedCourse.getCourseName
             writer.write("Phone Number: " + student.getPhoneNumber() + "\n");
             writer.write("IC Number: " + student.getIcNumber() + "\n");
             writer.write("Registered Course: " + course.getCourseName() + " (" + course.getCourseCode() + ")\n");
-            writer.write("-----------------------\n");
+            writer.write("----------------------------------------------\n");
             System.out.println("\nRegistration details saved to " + fileName);
         } catch (IOException e) {
             System.out.println("Error saving registration details: " + e.getMessage());
