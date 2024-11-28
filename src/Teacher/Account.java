@@ -47,7 +47,7 @@ public class Account {
 
         // Save the credentials to the text file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write("username: "+username + "," +"password: "+ password);
+            writer.write(username + ":" +password);
             writer.newLine();
             System.out.println("Registration successful!");
         } catch (IOException e) {
