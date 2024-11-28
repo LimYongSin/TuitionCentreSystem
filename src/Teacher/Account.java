@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Account {
 
-   private static final String FILE_PATH = "users.txt"; // File to store credentials
+   private static final String FILE_PATH = "account.txt"; // File to store credentials
    
    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

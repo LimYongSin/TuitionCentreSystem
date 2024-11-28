@@ -1,69 +1,39 @@
 package admin;
-import java.io.*;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class Admin {
 
-   private static final String FILE_PATH = "admin.txt"; // File to store credentials
-   
-   public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    private static final String FILE_PATH = "admin.txt"; // File to store admin credentials
 
-        System.out.println("Welcome to the Tuition Center Management System");
-        while (true) {
-            System.out.println("\nChoose an option:");
-            System.out.println("1. Register");
-            System.out.println("2. Login");
-            System.out.println("3. Exit");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
-            switch (choice) {
-                case 1:
-                    register(scanner);
-                    break;
-                case 2:
-                    login(scanner);
-                    break;
-                case 3:
-                    System.out.println("Exiting the system. Goodbye!");
-                    scanner.close();
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
-        }
-    }
-
-    // Method to handle user registration
-    private static void register(Scanner scanner) {
-        System.out.print("Enter a username: ");
+    // Method to handle admin registration
+    public void registerAdmin(Scanner scanner) {
+        System.out.print("Enter a new admin username: ");
         String username = scanner.nextLine();
 
-        System.out.print("Enter a password: ");
+        System.out.print("Enter a new admin password: ");
         String password = scanner.nextLine();
 
-        // Save the credentials to the text file
+        // Save the admin credentials to the text file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write(username + ":" +password);
+            writer.write(username + ":" + password);
             writer.newLine();
-            System.out.println("Registration successful!");
+            System.out.println("Admin registration successful!");
         } catch (IOException e) {
-            System.out.println("An error occurred while saving user information.");
+            System.out.println("An error occurred while saving admin information.");
         }
     }
 
-    // Method to handle user login
-    private static void login(Scanner scanner) {
-        System.out.print("Enter your username: ");
+    // Method to handle admin login
+    public void adminLogin(Scanner scanner) {
+        System.out.print("Enter admin username: ");
         String username = scanner.nextLine();
 
-        System.out.print("Enter your password: ");
+        System.out.print("Enter admin password: ");
         String password = scanner.nextLine();
 
-        // Validate the credentials
+        // Validate the admin credentials
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -73,14 +43,14 @@ public class Admin {
                     String storedPassword = parts[1];
 
                     if (storedUsername.equals(username) && storedPassword.equals(password)) {
-                        System.out.println("Login successful! Welcome, " + username + ".");
+                        System.out.println("Login successful! Welcome, Admin " + username + ".");
                         return;
                     }
                 }
             }
-            System.out.println("Invalid username or password. Please try again.");
+            System.out.println("Invalid admin username or password. Please try again.");
         } catch (IOException e) {
-            System.out.println("An error occurred while reading user information.");
+            System.out.println("An error occurred while reading admin information.");
         }
     }
 }
