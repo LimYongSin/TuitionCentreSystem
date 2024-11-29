@@ -8,3 +8,8 @@ Phone Number: 01844323
 IC Number: 040302-13-0933
 Registered Course: Accounting (CS103)
 -----------------------
+Student Name: nicholas
+Phone Number: 0105413383
+IC Number: 020504-13-0983
+Registered Course: Software Development (CS101)
+-----------------------------------
