@@ -1,15 +1,14 @@
 package Teacher;
 import java.io.*;
-
 import java.util.Scanner;
 
 public class Account {
 
    private static final String FILE_PATH = "account.txt"; // File to store credentials
-   
+
    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
+
         System.out.println("===============================================");
         System.out.println("Welcome to the Tuition Center Management System");
         System.out.println("===============================================");
@@ -19,7 +18,7 @@ public class Account {
             System.out.println("2. Login");
             System.out.println("3. Exit");
             System.out.println("___________________________________________");
-            System.out.print("Option:");
+            System.out.print("Option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -50,9 +49,10 @@ public class Account {
 
         // Save the credentials to the text file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write(username + ":" +password);
+            writer.write(username + ":" + password);
             writer.newLine();
             System.out.println("Registration successful!");
+            System.out.println("___________________________________________");
         } catch (IOException e) {
             System.out.println("An error occurred while saving user information.");
         }
@@ -77,6 +77,8 @@ public class Account {
 
                     if (storedUsername.equals(username) && storedPassword.equals(password)) {
                         System.out.println("Login successful! Welcome, " + username + ".");
+                        System.out.println("___________________________________________");
+                        accessFeatures(scanner); // Call feature menu after successful login
                         return;
                     }
                 }
@@ -84,6 +86,37 @@ public class Account {
             System.out.println("Invalid username or password. Please try again.");
         } catch (IOException e) {
             System.out.println("An error occurred while reading user information.");
+        }
+    }
+
+    // Method to display and access system features
+    private static void accessFeatures(Scanner scanner) {
+        while (true) {
+            System.out.println("\nTeachers' System:");
+            System.out.println("1. View Class Schedule");
+            System.out.println("2. Mark Attendance");
+            System.out.println("3. Record Student Performance");
+            System.out.println("4. Logout");
+            System.out.print("Choose an option: ");
+            int option = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (option) {
+                case 1:
+                    System.out.println("Feature: View Class Schedule (To be implemented)");
+                    break;
+                case 2:
+                    System.out.println("Feature: Mark Attendance (To be implemented)");
+                    break;
+                case 3:
+                    System.out.println("Feature: Record Student Performance (To be implemented)");
+                    break;
+                case 4:
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
         }
     }
 }
