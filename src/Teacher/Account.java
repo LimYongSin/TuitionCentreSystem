@@ -10,14 +10,17 @@ public class Account {
    
    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        
+        System.out.println("===============================================");
         System.out.println("Welcome to the Tuition Center Management System");
+        System.out.println("===============================================");
         while (true) {
-            System.out.println("\nChoose an option:");
+            System.out.println("Wish to access the system?");
             System.out.println("1. Register");
             System.out.println("2. Login");
             System.out.println("3. Exit");
-
+            System.out.println("___________________________________________");
+            System.out.print("Option:");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -40,7 +43,7 @@ public class Account {
 
     // Method to handle user registration
     private static void register(Scanner scanner) {
-        System.out.print("Enter a username: ");
+        System.out.print("\nEnter a username: ");
         String username = scanner.nextLine();
 
         System.out.print("Enter a password: ");
