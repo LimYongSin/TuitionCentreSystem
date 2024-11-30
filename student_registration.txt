@@ -1,19 +1,4 @@
 Name: Nicholas
-Phone Number: 0103873883
-Age: 22
-Registered Course: Software Development (SD101)
------------------------------------------------
-Name: a
-Phone Number: a
-Age: 1
-Registered Course: Software Development (SD101)
------------------------------------------------
-Name: Nicholas
-Phone Number: 0101837373
-Age: 22
-Registered Course: Software Development (SD101)
------------------------------------------------
-Name: Nicholas
 Phone Number: 019274883
 Age: 22
 Registered Course: Software Development (SD101)
