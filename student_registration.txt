@@ -18,3 +18,8 @@ Phone Number: 019274883
 Age: 22
 Registered Course: Software Development (SD101)
 -----------------------------------------------
+Name: Alex
+Phone Number: 0193747833
+Age: 19
+Registered Course: Business (BUS102)
+-----------------------------------------------
