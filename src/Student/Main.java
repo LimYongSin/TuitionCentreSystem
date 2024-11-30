@@ -1,4 +1,3 @@
-
 package Student;
 
 import java.util.ArrayList;
@@ -6,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
     private static List<Course> availableCourses = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -20,7 +20,7 @@ public class Main {
         int age = getValidAge(scanner);
 
         Student student = new Student(name, phoneNumber, age);
-
+        System.out.println();
         // Select a single course
         System.out.println("Select a course to register:");
         displayAvailableCourses();
@@ -62,14 +62,14 @@ public class Main {
         }
     }
 
-   private static void displayLogo() {
-    System.out.println("**************************************************");
-    System.out.println("*                                                *");
-    System.out.println("*        TARUMT COURSE REGISTRATION FORM         *");
-    System.out.println("*                                                *");
-    System.out.println("**************************************************");
-    System.out.println();
-}
+    private static void displayLogo() {
+        System.out.println("**************************************************");
+        System.out.println("*                                                *");
+        System.out.println("*        TARUMT COURSE REGISTRATION FORM         *");
+        System.out.println("*                                                *");
+        System.out.println("**************************************************");
+        System.out.println();
+    }
 
     private static String getNonEmptyInput(Scanner scanner, String prompt) {
         String input = "";
@@ -87,6 +87,7 @@ public class Main {
         int age = -1;
         while (age <= 0) {
             String input = getNonEmptyInput(scanner, "Enter your age: ");
+
             try {
                 age = Integer.parseInt(input);
                 if (age <= 0) {
