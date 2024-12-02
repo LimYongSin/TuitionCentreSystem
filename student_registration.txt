@@ -1,10 +1,6 @@
-Name: Nicholas
-Phone Number: 019274883
+Name: nicholas
+Phone Number: 01083736843
 Age: 22
+Student ID: STU423
 Registered Course: Software Development (SD101)
------------------------------------------------
-Name: Alex
-Phone Number: 0193747833
-Age: 19
-Registered Course: Business (BUS102)
------------------------------------------------
+----------------------------------
