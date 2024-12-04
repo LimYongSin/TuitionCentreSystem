@@ -85,7 +85,7 @@ public class Account {
                             accessFeatures(scanner); // Call feature menu after successful login
                             return;
                         } else {
-                            System.out.println("Your account is inactive. Please contact support.");
+                            System.out.println("Your account is inactive. Please contact support 012-2345679.");
                             return; // Exit the login method if account is inactive
                         }
                     }
@@ -107,7 +107,7 @@ public class Account {
             System.out.println("4. Logout");
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine(); // Consume newline2
 
             switch (option) {
                 case 1:
