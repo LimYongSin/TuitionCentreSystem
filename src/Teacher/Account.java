@@ -46,10 +46,12 @@ public class Account {
 
         System.out.print("Enter a password: ");
         String password = scanner.nextLine();
+        
+        String accountStatus = "active";
 
         // Save the credentials to the text file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write(username + ":" + password);
+            writer.write(username + ":" + password + ":" + accountStatus);
             writer.newLine();
             System.out.println("Registration successful!");
             System.out.println("___________________________________________");
@@ -67,19 +69,25 @@ public class Account {
         String password = scanner.nextLine();
 
         // Validate the credentials
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(":");
-                if (parts.length == 2) {
+                if (parts.length == 3) {
                     String storedUsername = parts[0];
                     String storedPassword = parts[1];
+                    String accountStatus = parts[2]; // Extract account status
 
                     if (storedUsername.equals(username) && storedPassword.equals(password)) {
-                        System.out.println("Login successful! Welcome, " + username + ".");
-                        System.out.println("___________________________________________");
-                        accessFeatures(scanner); // Call feature menu after successful login
-                        return;
+                        if (accountStatus.equals("active")) {
+                            System.out.println("Login successful! Welcome, " + username + ".");
+                            System.out.println("___________________________________________");
+                            accessFeatures(scanner); // Call feature menu after successful login
+                            return;
+                        } else {
+                            System.out.println("Your account is inactive. Please contact support 012-2345679.\n");
+                            return; // Exit the login method if account is inactive
+                        }
                     }
                 }
             }
@@ -99,7 +107,7 @@ public class Account {
             System.out.println("4. Logout");
             System.out.print("Choose an option: ");
             int option = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine(); // Consume newline2
 
             switch (option) {
                 case 1:
