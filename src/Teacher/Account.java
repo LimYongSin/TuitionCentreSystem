@@ -85,7 +85,7 @@ public class Account {
                             accessFeatures(scanner); // Call feature menu after successful login
                             return;
                         } else {
-                            System.out.println("Your account is inactive. Please contact support 012-2345679.");
+                            System.out.println("Your account is inactive. Please contact support 012-2345679.\n");
                             return; // Exit the login method if account is inactive
                         }
                     }
