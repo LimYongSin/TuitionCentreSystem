@@ -48,54 +48,52 @@ public class Main {
     }
 
     private static void registerCourse(Scanner scanner) {
-    System.out.println("\n** Course Registration **");
-    String name = getNonEmptyInput(scanner, "Enter your name: ");
-    String phoneNumber = getValidPhoneNumber(scanner); 
-    int age = getValidAge(scanner);
+        System.out.println("\n** Course Registration **");
+        String name = getNonEmptyInput(scanner, "Enter your name: ");
+        String phoneNumber = getValidPhoneNumber(scanner);
+        String email = getValidEmail(scanner);
+        String password = getValidPassword(scanner);
 
-    // Generate short student ID
-    String studentId = generateStudentId();
-    System.out.println("Your Student ID: " + studentId);
+        // Generate short student ID
+        String studentId = generateStudentId();
+        System.out.println("Your Student ID: " + studentId);
 
-    // Set password
-    String password = getNonEmptyInput(scanner, "Set a password for your account: ");
-    Student student = new Student(name, phoneNumber, age, studentId, password);
+        Student student = new Student(name, phoneNumber, email, studentId, password);
 
-    System.out.println();
-    // Select a course
-    System.out.println("Select a course to register:");
-    displayAvailableCourses();
+        System.out.println();
+        // Select a course
+        System.out.println("Select a course to register:");
+        displayAvailableCourses();
 
-    int courseChoice = -1;
-    while (courseChoice < 1 || courseChoice > availableCourses.size()) {
-        System.out.print("Enter the course number: ");
-        try {
-            courseChoice = Integer.parseInt(scanner.nextLine().trim());
-            if (courseChoice >= 1 && courseChoice <= availableCourses.size()) {
-                Course selectedCourse = availableCourses.get(courseChoice - 1);
-                student.registerCourse(selectedCourse);
-            } else {
-                System.out.println("Invalid course number. Please try again.");
+        int courseChoice = -1;
+        while (courseChoice < 1 || courseChoice > availableCourses.size()) {
+            System.out.print("Enter the course number: ");
+            try {
+                courseChoice = Integer.parseInt(scanner.nextLine().trim());
+                if (courseChoice >= 1 && courseChoice <= availableCourses.size()) {
+                    Course selectedCourse = availableCourses.get(courseChoice - 1);
+                    student.registerCourse(selectedCourse);
+                } else {
+                    System.out.println("Invalid course number. Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter a valid number.");
         }
+
+        // Store registered student
+        registeredStudents.add(student);
+
+        // Display student details, including ID
+        System.out.println("\nRegistration complete!");
+        System.out.println(student.getDetails());
+        System.out.println("Student ID: " + student.getStudentId());
+
+        // Save student details to file
+        FileHandler.saveStudentDetails(student);
+
+        System.out.println("\nReturning to home page...");
     }
-
-    // Store registered student
-    registeredStudents.add(student);
-
-    // Display student details, including ID
-    System.out.println("\nRegistration complete!");
-    System.out.println(student.getDetails());
-    System.out.println("Student ID: " + student.getStudentId());
-
-    // Save student details to file
-    FileHandler.saveStudentDetails(student);
-
-    System.out.println("\nReturning to home page...");
-}
-
 
     private static String generateStudentId() {
         Random random = new Random();
@@ -103,27 +101,26 @@ public class Main {
         return "STU" + randomNumber;
     }
 
-   public static void login(List<Student> registeredStudents, Scanner scanner) {
-    System.out.println("\nLogin to the Tuition Center");
-    String studentId = getNonEmptyInput(scanner, "Enter your Student ID: ").toLowerCase(); 
-    String password = getNonEmptyInput(scanner, "Enter your password: ");
+    public static void login(List<Student> registeredStudents, Scanner scanner) {
+        System.out.println("\nLogin to the Tuition Center");
+        String studentId = getNonEmptyInput(scanner, "Enter your Student ID: ").toLowerCase();
+        String password = getNonEmptyInput(scanner, "Enter your password: ");
 
-    boolean isLoggedIn = false;
+        boolean isLoggedIn = false;
 
-    for (Student student : registeredStudents) {
-      
-        if (student.getStudentId().toLowerCase().equals(studentId) && student.getPassword().equals(password)) {
-            System.out.println("Login successful! Welcome, " + student.getName());
-            isLoggedIn = true;
-            accessTuitionCenter(student); 
-            break;
+        for (Student student : registeredStudents) {
+            if (student.getStudentId().toLowerCase().equals(studentId) && student.getPassword().equals(password)) {
+                System.out.println("Login successful! Welcome, " + student.getName());
+                isLoggedIn = true;
+                accessTuitionCenter(student);
+                break;
+            }
+        }
+
+        if (!isLoggedIn) {
+            System.out.println("Invalid Student ID or Password. Please try again.");
         }
     }
-
-    if (!isLoggedIn) {
-        System.out.println("Invalid Student ID or Password. Please try again.");
-    }
-}
 
     private static void accessTuitionCenter(Student student) {
         System.out.println("\nTuition Center Dashboard");
@@ -151,36 +148,38 @@ public class Main {
         return input;
     }
 
-   private static String getValidPhoneNumber(Scanner scanner) {
-    String phoneNumber = "";
-    while (true) {
-        phoneNumber = getNonEmptyInput(scanner, "Enter your phone number: ");
-        if (phoneNumber.matches("\\d{8,}")) {
-            return phoneNumber;
-        } else {
-            System.out.println("Invalid phone number. It must be at least 8 digits and contain only numbers.");
-        }
-    }
-}
-
-
- private static int getValidAge(Scanner scanner) {
-    int age = -1;
-    while (true) {
-        String input = getNonEmptyInput(scanner, "Enter your age: ");
-        try {
-            age = Integer.parseInt(input);
-            if (age > 0) { // Ensure age is greater than 0
-                return age;
+    private static String getValidPhoneNumber(Scanner scanner) {
+        while (true) {
+            String phoneNumber = getNonEmptyInput(scanner, "Enter your phone number: ");
+            if (phoneNumber.matches("\\d{8,}")) {
+                return phoneNumber;
             } else {
-                System.out.println("Age must be a positive number. Please try again.");
+                System.out.println("Invalid phone number. It must be at least 8 digits and contain only numeric numbers.");
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a valid number.");
         }
     }
-}
 
+    private static String getValidEmail(Scanner scanner) {
+        while (true) {
+            String email = getNonEmptyInput(scanner, "Enter your email: ");
+            if (email.matches("^[\\w.%+-]+@[\\w.-]+\\.com$")) {
+                return email;
+            } else {
+                System.out.println("Invalid email format. Please enter a valid email (e.g., example@gmail.com).");
+            }
+        }
+    }
+
+    private static String getValidPassword(Scanner scanner) {
+        while (true) {
+            String password = getNonEmptyInput(scanner, "Set a password (5-10 characters, alphanumeric): ");
+            if (password.matches("^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{5,10}$")) {
+                return password;
+            } else {
+                System.out.println("Invalid password. It must be 5-10 characters long and contain both letters and numbers.");
+            }
+        }
+    }
 
     private static int getValidChoice(Scanner scanner, int min, int max) {
         int choice = -1;

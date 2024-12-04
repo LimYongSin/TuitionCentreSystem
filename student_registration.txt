@@ -16,3 +16,11 @@ Age: 21
 Student ID: STU623
 Registered Course: Business (BUS102)
 ----------------------------------
+Name: alex
+Phone Number: 0192943432
+Name: alice
+Phone Number: 0182346235
+Email: alice@gmail.com
+Student ID: STU681
+Registered Course: Business (BUS102)
+----------------------------------

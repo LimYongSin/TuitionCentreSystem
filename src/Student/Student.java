@@ -1,21 +1,18 @@
 package Student;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Student {
 
     private String name;
     private String phoneNumber;
-    private int age;
+    private String email; // Added email field
     private String studentId;
     private String password;
     private Course registeredCourse;
 
-    public Student(String name, String phoneNumber, int age, String studentId, String password) {
+    public Student(String name, String phoneNumber, String email, String studentId, String password) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.age = age;
+        this.email = email;
         this.studentId = studentId;
         this.password = password;
     }
@@ -36,20 +33,12 @@ public class Student {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getAge() {
-        return age;
+    public String getEmail() { // Getter for email
+        return email;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public Course getRegisteredCourse() {
-        return registeredCourse;
-    }
-
-    public void setRegisteredCourse(Course registeredCourse) {
-        this.registeredCourse = registeredCourse;
+    public void setEmail(String email) { // Setter for email
+        this.email = email;
     }
 
     public String getStudentId() {
@@ -60,6 +49,14 @@ public class Student {
         return password;
     }
 
+    public Course getRegisteredCourse() {
+        return registeredCourse;
+    }
+
+    public void setRegisteredCourse(Course registeredCourse) {
+        this.registeredCourse = registeredCourse;
+    }
+
     public void registerCourse(Course course) {
         this.registeredCourse = course;
     }
@@ -67,7 +64,7 @@ public class Student {
     public String getDetails() {
         return "Name: " + name + "\n"
                 + "Phone Number: " + phoneNumber + "\n"
-                + "Age: " + age + "\n"
+                + "Email: " + email + "\n"
                 + "Registered Course: " + (registeredCourse != null
                         ? registeredCourse.getCourseName() + " (" + registeredCourse.getCourseCode() + ")"
                         : "None");

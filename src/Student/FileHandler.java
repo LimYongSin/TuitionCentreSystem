@@ -1,4 +1,3 @@
-
 package Student;
 
 import java.io.BufferedWriter;
@@ -15,12 +14,15 @@ public class FileHandler {
             writer.newLine();
             writer.write("Phone Number: " + student.getPhoneNumber());
             writer.newLine();
-            writer.write("Age: " + student.getAge());
+            writer.write("Email: " + student.getEmail());
             writer.newLine();
             writer.write("Student ID: " + student.getStudentId());
             writer.newLine();
-            writer.write("Registered Course: " + student.getRegisteredCourse().getCourseName() +
-                    " (" + student.getRegisteredCourse().getCourseCode() + ")");
+            writer.write("Registered Course: " + 
+                         (student.getRegisteredCourse() != null 
+                         ? student.getRegisteredCourse().getCourseName() + 
+                           " (" + student.getRegisteredCourse().getCourseCode() + ")" 
+                         : "None"));
             writer.newLine();
             writer.write("----------------------------------");
             writer.newLine();
