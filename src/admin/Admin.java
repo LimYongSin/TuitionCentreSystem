@@ -18,13 +18,24 @@ public class Admin {
         String username = scanner.nextLine();
 
         // Check if username already exists
+        if (username.isEmpty()) {
+            System.out.println("Username cannot be blank. Please try again.");
+            return;
+        }
+
+        // Check if username already exists
         if (isUsernameTaken(username)) {
             System.out.println("Username is already taken. Please choose another.");
             return;
         }
 
         System.out.print("Enter a new admin password: ");
-        String password = scanner.nextLine();
+        String password = scanner.nextLine().trim();
+        
+         if (password.isEmpty()) {
+            System.out.println("Password cannot be blank. Please try again.");
+            return;
+        }
 
         // Hash the password before saving it
         String hashedPassword = hashPassword(password);
@@ -42,10 +53,20 @@ public class Admin {
     // Method to handle admin login
     public void adminLogin(Scanner scanner) {
         System.out.print("Enter admin username: ");
-        String username = scanner.nextLine();
+        String username = scanner.nextLine().trim();
 
+        if (username.isEmpty()) {
+            System.out.println("Username cannot be blank. Please try again.");
+            return;
+        }
+        
         System.out.print("Enter admin password: ");
         String password = scanner.nextLine();
+        
+        if (password.isEmpty()) {
+            System.out.println("Password cannot be blank. Please try again.");
+            return;
+        }
 
         // Hash the entered password to compare with stored hash
         String hashedPassword = hashPassword(password);
