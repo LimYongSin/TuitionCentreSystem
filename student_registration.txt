@@ -4,3 +4,15 @@ Age: 22
 Student ID: STU423
 Registered Course: Software Development (SD101)
 ----------------------------------
+Name: alex
+Phone Number: 0184832434
+Age: 21
+Student ID: STU588
+Registered Course: Business (BUS102)
+----------------------------------
+Name: alice
+Phone Number: 01834957325
+Age: 21
+Student ID: STU623
+Registered Course: Business (BUS102)
+----------------------------------

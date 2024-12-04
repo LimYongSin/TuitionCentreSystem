@@ -12,9 +12,11 @@ public class ValidationUtils {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+    String phoneRegex = "^[0-9]{10}$";  // Exactly 10 digits
+    Pattern pattern = Pattern.compile(phoneRegex);
+    return pattern.matcher(phoneNumber).matches();
+}
 
-    // Validate password strength
-    public static boolean isValidPassword(String password) {
-        return password.length() >= 6; // Minimum password length of 6 characters
-    }
+    
 }
