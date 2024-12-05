@@ -1,3 +1,5 @@
 abby: Present
 
 jocelyn: Present
+Class: Class A, Student: abby, Status: Present
+Class: Class B, Student: jacky, Status: Absent

@@ -132,6 +132,13 @@ public class Teacher {
     //Sprint 2
     // Method to mark student attendance
     private static void markAttendance(Scanner scanner) {
+    String selectedClass = selectClass(scanner);
+
+    if (selectedClass == null) {
+        System.out.println("No classes available. Please contact the admin.");
+        return;
+    }
+
     String studentName;
 
     while (true) {
@@ -144,9 +151,9 @@ public class Teacher {
             continue;
         }
 
-        // Validate the student name against the database (name_list2.txt)
-        if (!isStudentInDatabase(studentName)) {
-            System.out.println("Error: Student name not found in the database. Please try again.");
+        // Validate the student name against the database (students.txt)
+        if (!isStudentInDatabase(selectedClass, studentName)) {
+            System.out.println("Error: Student name not found in the database for class " + selectedClass + ". Please try again.");
             continue;
         }
 
@@ -182,21 +189,79 @@ public class Teacher {
 
     // Save attendance to the file
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("attendance.txt", true))) {
-        writer.write(studentName + ": " + status);
+        writer.write("Class: " + selectedClass + ", Student: " + studentName + ", Status: " + status);
         writer.newLine();
-        System.out.println("Attendance marked successfully for " + studentName + " as " + status + ".");
+        System.out.println("Attendance marked successfully for " + studentName + " in class " + selectedClass + " as " + status + ".");
     } catch (IOException e) {
         System.out.println("An error occurred while saving attendance.");
     }
 }
 
-// Helper method to check if a student name exists in the database
-private static boolean isStudentInDatabase(String studentName) {
+// Helper method to allow class selection
+private static String selectClass(Scanner scanner) {
+    System.out.println("\nAvailable Classes:");
+    try (BufferedReader reader = new BufferedReader(new FileReader("classes.txt"))) {
+        String line;
+        int count = 0;
+
+        while ((line = reader.readLine()) != null) {
+            count++;
+            System.out.println(count + ". " + line);
+        }
+
+        if (count == 0) {
+            System.out.println("Error: No classes available. Please contact the admin.");
+            return null; // No classes to select
+        }
+
+        while (true) {
+            System.out.print("Select a class by number: ");
+            String choiceInput = scanner.nextLine().trim();
+
+            if (choiceInput.isEmpty()) {
+                System.out.println("Error: Class selection cannot be blank. Please enter a valid class number.");
+                continue; // Prompt the user again
+            }
+
+            try {
+                int choice = Integer.parseInt(choiceInput);
+
+                if (choice > 0 && choice <= count) {
+                    // Reset the reader to find the chosen class
+                    reader.close();
+                    try (BufferedReader reader2 = new BufferedReader(new FileReader("classes.txt"))) {
+                        for (int i = 0; i < choice; i++) {
+                            line = reader2.readLine();
+                        }
+                        return line; // Return the selected class name
+                    }
+                } else {
+                    System.out.println("Error: Invalid class number. Please enter a number between 1 and " + count + ".");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Please enter a valid numeric class number.");
+            }
+        }
+    } catch (IOException e) {
+        System.out.println("An error occurred while reading the class database.");
+    }
+    return null;
+}
+
+
+// Helper method to check if a student name exists in the database for a specific class
+private static boolean isStudentInDatabase(String selectedClass, String studentName) {
     try (BufferedReader reader = new BufferedReader(new FileReader("name_list.txt"))) {
         String line;
         while ((line = reader.readLine()) != null) {
-            if (line.trim().equalsIgnoreCase(studentName)) {
-                return true; // Student name exists
+            String[] parts = line.split(":");
+            if (parts.length == 2) {
+                String className = parts[0];
+                String student = parts[1];
+
+                if (className.equalsIgnoreCase(selectedClass) && student.equalsIgnoreCase(studentName)) {
+                    return true; // Student name exists for the selected class
+                }
             }
         }
     } catch (IOException e) {

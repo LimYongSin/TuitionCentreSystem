@@ -1,6 +1,6 @@
-emily 
-abby
-john
-jacky
-jocelyn
-marry
+Class A:emily 
+Class A:abby
+Class B:john
+Class B:jacky
+Class C:jocelyn
+Class C:marry
