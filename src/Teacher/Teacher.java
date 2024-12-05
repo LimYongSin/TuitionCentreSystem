@@ -2,7 +2,7 @@ package Teacher;
 import java.io.*;
 import java.util.Scanner;
 
-public class Account {
+public class Teacher {
 
    private static final String FILE_PATH = "account.txt"; // File to store credentials
 
