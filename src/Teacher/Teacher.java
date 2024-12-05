@@ -128,7 +128,8 @@ public class Teacher {
             }
         }
     }
-
+    
+    //Sprint 2
     // Method to mark student attendance
     private static void markAttendance(Scanner scanner) {
     String studentName;
@@ -143,7 +144,7 @@ public class Teacher {
             continue;
         }
 
-        // Validate the student name against the database (name-list.txt)
+        // Validate the student name against the database (name_list2.txt)
         if (!isStudentInDatabase(studentName)) {
             System.out.println("Error: Student name not found in the database. Please try again.");
             continue;
@@ -191,7 +192,7 @@ public class Teacher {
 
 // Helper method to check if a student name exists in the database
 private static boolean isStudentInDatabase(String studentName) {
-    try (BufferedReader reader = new BufferedReader(new FileReader("name-list.txt"))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader("name_list.txt"))) {
         String line;
         while ((line = reader.readLine()) != null) {
             if (line.trim().equalsIgnoreCase(studentName)) {
