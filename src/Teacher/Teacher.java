@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Teacher {
 
-    private static final String FILE_PATH = "account.txt"; // File to store credentials
+    private static final String FILE_PATH = "teacher.txt"; // File to store credentials
     private static final String ATTENDANCE_FILE = "attendance.txt"; // File to store attendance records
 
     public static void main(String[] args) {
@@ -131,30 +131,47 @@ public class Teacher {
 
     // Method to mark student attendance
     private static void markAttendance(Scanner scanner) {
-    System.out.println("\nEnter the student's name: ");
-    String studentName = scanner.nextLine().trim();
+    String studentName;
 
-    // Check if the student name is blank
-    if (studentName.isEmpty()) {
-        System.out.println("Error: Student name cannot be blank.");
-        return;
+    while (true) {
+        System.out.print("\nEnter the student's name: ");
+        studentName = scanner.nextLine().trim();
+
+        // Check if the student name is blank or whitespace-only
+        if (studentName.isEmpty()) {
+            System.out.println("Error: Student name cannot be blank or contain only whitespace.");
+            continue;
+        }
+
+        // Validate the student name against the database (name-list.txt)
+        if (!isStudentInDatabase(studentName)) {
+            System.out.println("Error: Student name not found in the database. Please try again.");
+            continue;
+        }
+
+        // If the name is valid, break the loop
+        break;
     }
 
     System.out.println("Attendance Status Options:");
     System.out.println("1. Present");
     System.out.println("2. Absent");
-    System.out.println("3. Excused");
     System.out.print("Enter the attendance status: ");
     
-    int statusOption = scanner.nextInt();
-    scanner.nextLine(); // Consume newline
+    String statusInput = scanner.nextLine().trim();
+
+    // Check if the status input is blank or whitespace-only
+    if (statusInput.isEmpty()) {
+        System.out.println("Error: Attendance status cannot be blank or contain only whitespace.");
+        return;
+    }
 
     String status = "";
-    switch (statusOption) {
-        case 1:
+    switch (statusInput) {
+        case "1":
             status = "Present";
             break;
-        case 2:
+        case "2":
             status = "Absent";
             break;
         default:
@@ -162,20 +179,29 @@ public class Teacher {
             return;
     }
 
-    // Check if the attendance status is blank (this would only happen in case of logic issues)
-    if (status.isEmpty()) {
-        System.out.println("Error: Attendance status cannot be blank.");
-        return;
-    }
-
     // Save attendance to the file
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(ATTENDANCE_FILE, true))) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("attendance.txt", true))) {
         writer.write(studentName + ": " + status);
         writer.newLine();
         System.out.println("Attendance marked successfully for " + studentName + " as " + status + ".");
     } catch (IOException e) {
         System.out.println("An error occurred while saving attendance.");
     }
+}
+
+// Helper method to check if a student name exists in the database
+private static boolean isStudentInDatabase(String studentName) {
+    try (BufferedReader reader = new BufferedReader(new FileReader("name-list.txt"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.trim().equalsIgnoreCase(studentName)) {
+                return true; // Student name exists
+            }
+        }
+    } catch (IOException e) {
+        System.out.println("An error occurred while accessing the student database.");
+    }
+    return false; // Student name not found
 }
 
 }
