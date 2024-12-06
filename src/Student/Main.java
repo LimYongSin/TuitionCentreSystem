@@ -7,20 +7,20 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static List<Course> availableCourses = new ArrayList<>();
+    private static List<Subject> availableSubjects = new ArrayList<>();
     private static List<Student> registeredStudents = new ArrayList<>();
 
     public static void main(String[] args) {
-        initializeCourses();
+        initializeSubjects();
         Scanner scanner = new Scanner(System.in);
         while (true) {
             displayHomePage();
             int choice = getValidChoice(scanner, 1, 2);
 
             if (choice == 1) {
-                registerCourse(scanner);
+                registerSubject(scanner);
             } else if (choice == 2) {
-                login(registeredStudents, scanner);
+                Login.login(registeredStudents, scanner);  // Login function
             } else {
                 System.out.println("Invalid option. Exiting...");
                 break;
@@ -29,26 +29,26 @@ public class Main {
         scanner.close();
     }
 
-    private static void initializeCourses() {
-        availableCourses.add(new Course("Software Development", "SD101"));
-        availableCourses.add(new Course("Business", "BUS102"));
-        availableCourses.add(new Course("Accounting", "ACC103"));
+    private static void initializeSubjects() {
+        availableSubjects.add(new Subject("Math", "M1"));
+        availableSubjects.add(new Subject("Science", "S1"));
+        availableSubjects.add(new Subject("Sejarah", "S2"));
     }
 
     private static void displayHomePage() {
         System.out.println("\n**************************************************");
         System.out.println("*                                                *");
-        System.out.println("*            TARUMT COURSE SYSTEM               *");
+        System.out.println("*            TARUMT SUBJECT SYSTEM              *");
         System.out.println("*                                                *");
         System.out.println("**************************************************");
-        System.out.println("1. Register for a Course");
+        System.out.println("1. Register for a Subject");
         System.out.println("2. Login to Tuition Center");
         System.out.println("**************************************************");
         System.out.print("Enter your choice: ");
     }
 
-    private static void registerCourse(Scanner scanner) {
-        System.out.println("\n** Course Registration **");
+    private static void registerSubject(Scanner scanner) {
+        System.out.println("\n** Subject Registration **");
         String name = getNonEmptyInput(scanner, "Enter your name: ");
         String phoneNumber = getValidPhoneNumber(scanner);
         String email = getValidEmail(scanner);
@@ -61,20 +61,20 @@ public class Main {
         Student student = new Student(name, phoneNumber, email, studentId, password);
 
         System.out.println();
-        // Select a course
-        System.out.println("Select a course to register:");
-        displayAvailableCourses();
+        // Select a subject
+        System.out.println("Select a subject to register:");
+        displayAvailableSubjects();
 
-        int courseChoice = -1;
-        while (courseChoice < 1 || courseChoice > availableCourses.size()) {
-            System.out.print("Enter the course number: ");
+        int subjectChoice = -1;
+        while (subjectChoice < 1 || subjectChoice > availableSubjects.size()) {
+            System.out.print("Enter the subject number: ");
             try {
-                courseChoice = Integer.parseInt(scanner.nextLine().trim());
-                if (courseChoice >= 1 && courseChoice <= availableCourses.size()) {
-                    Course selectedCourse = availableCourses.get(courseChoice - 1);
-                    student.registerCourse(selectedCourse);
+                subjectChoice = Integer.parseInt(scanner.nextLine().trim());
+                if (subjectChoice >= 1 && subjectChoice <= availableSubjects.size()) {
+                    Subject selectedSubject = availableSubjects.get(subjectChoice - 1);
+                    student.registerSubject(selectedSubject);
                 } else {
-                    System.out.println("Invalid course number. Please try again.");
+                    System.out.println("Invalid subject number. Please try again.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid number.");
@@ -97,42 +97,14 @@ public class Main {
 
     private static String generateStudentId() {
         Random random = new Random();
-        int randomNumber = 100 + random.nextInt(900); 
+        int randomNumber = 100 + random.nextInt(900);
         return "STU" + randomNumber;
     }
 
-    public static void login(List<Student> registeredStudents, Scanner scanner) {
-        System.out.println("\nLogin to the Tuition Center");
-        String studentId = getNonEmptyInput(scanner, "Enter your Student ID: ").toLowerCase();
-        String password = getNonEmptyInput(scanner, "Enter your password: ");
-
-        boolean isLoggedIn = false;
-
-        for (Student student : registeredStudents) {
-            if (student.getStudentId().toLowerCase().equals(studentId) && student.getPassword().equals(password)) {
-                System.out.println("Login successful! Welcome, " + student.getName());
-                isLoggedIn = true;
-                accessTuitionCenter(student);
-                break;
-            }
-        }
-
-        if (!isLoggedIn) {
-            System.out.println("Invalid Student ID or Password. Please try again.");
-        }
-    }
-
-    private static void accessTuitionCenter(Student student) {
-        System.out.println("\nTuition Center Dashboard");
-        System.out.println("Your Enrolled Course:");
-        System.out.println(student.getRegisteredCourse().getCourseName() + " (" + student.getRegisteredCourse().getCourseCode() + ")");
-        System.out.println("\nEnjoy your studies at TARUMT!");
-    }
-
-    private static void displayAvailableCourses() {
-        for (int i = 0; i < availableCourses.size(); i++) {
-            Course course = availableCourses.get(i);
-            System.out.println((i + 1) + ". " + course.getCourseName() + " (" + course.getCourseCode() + ")");
+    private static void displayAvailableSubjects() {
+        for (int i = 0; i < availableSubjects.size(); i++) {
+            Subject subject = availableSubjects.get(i);
+            System.out.println((i + 1) + ". " + subject.getSubjectName() + " (" + subject.getSubjectCode() + ")");
         }
     }
 

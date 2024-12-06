@@ -18,10 +18,10 @@ public class FileHandler {
             writer.newLine();
             writer.write("Student ID: " + student.getStudentId());
             writer.newLine();
-            writer.write("Registered Course: " + 
-                         (student.getRegisteredCourse() != null 
-                         ? student.getRegisteredCourse().getCourseName() + 
-                           " (" + student.getRegisteredCourse().getCourseCode() + ")" 
+            writer.write("Registered Subject: " + 
+                         (student.getRegisteredSubject() != null // Changed to getRegisteredSubject()
+                         ? student.getRegisteredSubject().getSubjectName() +  // Changed to getSubjectName()
+                           " (" + student.getRegisteredSubject().getSubjectCode() + ")"  // Changed to getSubjectCode()
                          : "None"));
             writer.newLine();
             writer.write("----------------------------------");

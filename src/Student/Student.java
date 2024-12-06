@@ -7,7 +7,7 @@ public class Student {
     private String email; // Added email field
     private String studentId;
     private String password;
-    private Course registeredCourse;
+    private Subject registeredSubject; // Changed to Subject
 
     public Student(String name, String phoneNumber, String email, String studentId, String password) {
         this.name = name;
@@ -41,6 +41,14 @@ public class Student {
         this.email = email;
     }
 
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getStudentId() {
         return studentId;
     }
@@ -49,24 +57,24 @@ public class Student {
         return password;
     }
 
-    public Course getRegisteredCourse() {
-        return registeredCourse;
+    public Subject getRegisteredSubject() { // Changed to Subject
+        return registeredSubject;
     }
 
-    public void setRegisteredCourse(Course registeredCourse) {
-        this.registeredCourse = registeredCourse;
+    public void setRegisteredSubject(Subject registeredSubject) { // Changed to Subject
+        this.registeredSubject = registeredSubject;
     }
 
-    public void registerCourse(Course course) {
-        this.registeredCourse = course;
+    public void registerSubject(Subject subject) { // Changed to Subject
+        this.registeredSubject = subject;
     }
 
     public String getDetails() {
         return "Name: " + name + "\n"
                 + "Phone Number: " + phoneNumber + "\n"
                 + "Email: " + email + "\n"
-                + "Registered Course: " + (registeredCourse != null
-                        ? registeredCourse.getCourseName() + " (" + registeredCourse.getCourseCode() + ")"
+                + "Registered Subject: " + (registeredSubject != null
+                        ? registeredSubject.getSubjectName() + " (" + registeredSubject.getSubjectCode() + ")"
                         : "None");
     }
 }
