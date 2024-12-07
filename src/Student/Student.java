@@ -4,11 +4,12 @@ public class Student {
 
     private String name;
     private String phoneNumber;
-    private String email; // Added email field
+    private String email; 
     private String studentId;
     private String password;
-    private Subject registeredSubject; // Changed to Subject
+    private Subject registeredSubject; 
 
+    // Constructor with parameters
     public Student(String name, String phoneNumber, String email, String studentId, String password) {
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -17,6 +18,17 @@ public class Student {
         this.password = password;
     }
 
+    // No-argument constructor
+    public Student() {
+        this.name = "";
+        this.phoneNumber = "";
+        this.email = "";
+        this.studentId = "";
+        this.password = "";
+        this.registeredSubject = null;
+    }
+
+    // Getter and Setter methods
     public String getName() {
         return name;
     }
@@ -33,39 +45,39 @@ public class Student {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() { // Getter for email
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) { // Setter for email
+    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getStudentId() {
         return studentId;
     }
 
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
     public String getPassword() {
         return password;
     }
 
-    public Subject getRegisteredSubject() { // Changed to Subject
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Subject getRegisteredSubject() {
         return registeredSubject;
     }
 
-    public void setRegisteredSubject(Subject registeredSubject) { // Changed to Subject
+    public void setRegisteredSubject(Subject registeredSubject) {
         this.registeredSubject = registeredSubject;
     }
 
-    public void registerSubject(Subject subject) { // Changed to Subject
+    public void registerSubject(Subject subject) {
         this.registeredSubject = subject;
     }
 

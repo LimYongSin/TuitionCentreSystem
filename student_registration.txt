@@ -1,6 +1,14 @@
-Name: nicholas
-Phone Number: 0105413383
-Email: nic@gmail.com
-Student ID: STU961
+Name: nic
+Phone Number: 010177552323
+Email: n@gmail.com
+Student ID: STU131
+Password: pw222
 Registered Subject: Math (M1)
+----------------------------------
+Name: alex
+Phone Number: 0182373431
+Email: alex@gmail.com
+Student ID: STU749
+Password: pw123
+Registered Subject: Science (S1)
 ----------------------------------
