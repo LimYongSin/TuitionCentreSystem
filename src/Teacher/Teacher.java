@@ -93,8 +93,10 @@ public class Teacher {
                 }
             }
             System.out.println("Invalid username or password. Please try again.");
+            System.out.println("___________________________________________");
         } catch (IOException e) {
             System.out.println("An error occurred while reading user information.");
+            System.out.println("___________________________________________");
         }
     }
 
@@ -106,7 +108,8 @@ public class Teacher {
             System.out.println("2. Mark Attendance");
             System.out.println("3. Record Student Performance");
             System.out.println("4. Logout");
-            System.out.print("Choose an option: ");
+            System.out.println("___________________________________________");
+            System.out.print("Option: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -160,7 +163,7 @@ public class Teacher {
         // If the name is valid, break the loop
         break;
     }
-
+    System.out.println("___________________________________________");
     System.out.println("Attendance Status Options:");
     System.out.println("1. Present");
     System.out.println("2. Absent");
@@ -171,6 +174,7 @@ public class Teacher {
     // Check if the status input is blank or whitespace-only
     if (statusInput.isEmpty()) {
         System.out.println("Error: Attendance status cannot be blank or contain only whitespace.");
+        System.out.println("___________________________________________");
         return;
     }
 
@@ -192,6 +196,7 @@ public class Teacher {
         writer.write("Class: " + selectedClass + ", Student: " + studentName + ", Status: " + status);
         writer.newLine();
         System.out.println("Attendance marked successfully for " + studentName + " in class " + selectedClass + " as " + status + ".");
+        System.out.println("___________________________________________");
     } catch (IOException e) {
         System.out.println("An error occurred while saving attendance.");
     }
@@ -211,15 +216,17 @@ private static String selectClass(Scanner scanner) {
 
         if (count == 0) {
             System.out.println("Error: No classes available. Please contact the admin.");
+            System.out.println("___________________________________________");
             return null; // No classes to select
         }
 
         while (true) {
-            System.out.print("Select a class by number: ");
+            System.out.print("Class no.: ");
             String choiceInput = scanner.nextLine().trim();
 
             if (choiceInput.isEmpty()) {
                 System.out.println("Error: Class selection cannot be blank. Please enter a valid class number.");
+                System.out.println("___________________________________________");
                 continue; // Prompt the user again
             }
 
@@ -237,13 +244,16 @@ private static String selectClass(Scanner scanner) {
                     }
                 } else {
                     System.out.println("Error: Invalid class number. Please enter a number between 1 and " + count + ".");
+                    System.out.println("___________________________________________");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Please enter a valid numeric class number.");
+                System.out.println("___________________________________________");
             }
         }
     } catch (IOException e) {
         System.out.println("An error occurred while reading the class database.");
+        System.out.println("___________________________________________");
     }
     return null;
 }
@@ -266,6 +276,7 @@ private static boolean isStudentInDatabase(String selectedClass, String studentN
         }
     } catch (IOException e) {
         System.out.println("An error occurred while accessing the student database.");
+        System.out.println("___________________________________________");
     }
     return false; // Student name not found
 }
