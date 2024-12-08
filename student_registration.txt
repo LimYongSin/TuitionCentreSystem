@@ -1,8 +1,8 @@
 Name: nic
-Phone Number: 010177552323
-Email: n@gmail.com
+Phone Number: 010541939393
+Email: nic@gmail.com
 Student ID: STU131
-Password: pw222
+Password: pass123
 Registered Subject: Math (M1)
 ----------------------------------
 Name: alex

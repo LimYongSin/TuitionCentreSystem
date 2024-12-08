@@ -51,22 +51,30 @@ public class Main {
         for (int i = 0; i < availableSubjects.size(); i++) {
             System.out.println((i + 1) + ". " + availableSubjects.get(i).getSubjectName());
         }
-
+    
         int subjectChoice = getValidChoice(scanner, 1, availableSubjects.size());
         Subject selectedSubject = availableSubjects.get(subjectChoice - 1);
-
+    
         // Register the student with the selected subject
         String name = getNonEmptyInput(scanner, "Enter your name: ");
         String phoneNumber = getValidPhoneNumber(scanner);
-        String email = getValidEmail(scanner);
+        String email = getValidUniqueEmail(scanner); // Ensure the email is unique
         String studentId = "STU" + new Random().nextInt(1000);
         String password = getValidPassword(scanner);
-
+    
         Student newStudent = new Student(name, phoneNumber, email, studentId, password);
         newStudent.setRegisteredSubject(selectedSubject);
-        FileHandler.saveStudentDetails(newStudent);
-        registeredStudents.add(newStudent);
+    
+        registeredStudents.add(newStudent); // Add to the in-memory list
+    
+        // Save all students to the file
+        FileHandler.saveAllStudents(registeredStudents);
+    
+        System.out.println("Registration successful!");
+        System.out.println("Your Student ID: " + studentId);
     }
+    
+    
 
     private static int getValidChoice(Scanner scanner, int min, int max) {
         int choice = -1;
@@ -118,13 +126,42 @@ private static String getValidEmail(Scanner scanner) {
 
 private static String getValidPassword(Scanner scanner) {
     while (true) {
-        String password = getNonEmptyInput(scanner, "Enter your new password (5-10 characters, alphanumeric): ");
-        if (password.matches("^(?=.*[a-zA-Z])(?=.*\\d)[a-zAd\\d]{5,10}$")) {
-            return password;
+        String password = getNonEmptyInput(scanner, "Enter your new password (must be at least 7 characters and contain both letters and numbers): ");
+        if (password.length() < 7) {
+            System.out.println("Password must be at least 7 characters.");
+        } else if (!password.matches(".*[a-zA-Z].*")) {
+            System.out.println("Password must contain at least one letter.");
+        } else if (!password.matches(".*\\d.*")) {
+            System.out.println("Password must contain at least one number.");
         } else {
-            System.out.println("Invalid password. It must be 5-10 characters long and contain both letters and numbers.");
+            return password; // Valid password
+        }
+        
+    }
+}
+
+private static String getValidUniqueEmail(Scanner scanner) {
+    while (true) {
+        String email = getValidEmail(scanner); // Get email with basic validation
+        if (!isEmailExists(email)) {
+            return email; // Email is unique, return it
+        } else {
+            System.out.println("This email is already registered. Please enter a different email.");
         }
     }
+}
+
+private static boolean isEmailExists(String email) {
+    for (Student student : registeredStudents) {
+        if (student.getEmail().equalsIgnoreCase(email)) {
+            return true; // Email already exists
+        }
+    }
+    return false; // Email is unique
+}
+
+public static void refreshRegisteredStudents() {
+    registeredStudents = FileHandler.loadStudentDetails(); // Reload data from the file
 }
 
 }

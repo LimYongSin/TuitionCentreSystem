@@ -7,7 +7,7 @@ public class FileHandler {
     // register
     public static void saveAllStudents(List<Student> students) {
         String fileName = "student_registration.txt";
-
+    
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             for (Student student : students) {
                 writer.write("Name: " + student.getName());
@@ -21,18 +21,18 @@ public class FileHandler {
                 writer.write("Password: " + student.getPassword());
                 writer.newLine();
                 writer.write("Registered Subject: " +
-                        (student.getRegisteredSubject() != null ? student.getRegisteredSubject().getSubjectName() +
-                                " (" + student.getRegisteredSubject().getSubjectCode() + ")"
-                                : "None"));
+                    (student.getRegisteredSubject() != null ? student.getRegisteredSubject().getSubjectName() +
+                            " (" + student.getRegisteredSubject().getSubjectCode() + ")"
+                            : "None"));
                 writer.newLine();
                 writer.write("----------------------------------");
                 writer.newLine();
             }
-
         } catch (IOException e) {
             System.out.println("Error saving all students: " + e.getMessage());
         }
     }
+    
 
     public static List<Student> loadStudentDetails() {
         List<Student> students = new ArrayList<>();
@@ -81,39 +81,43 @@ public class FileHandler {
     }
 
     //update
-    public static void saveStudentDetails(Student updatedStudent) {
-        String fileName = "student_registration.txt";
-        List<Student> students = loadStudentDetails();
+  public static void saveStudentDetails(Student updatedStudent) {
+    String fileName = "student_registration.txt";
+    List<Student> students = loadStudentDetails(); // Reload all students from file to get the latest data
 
-        for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getStudentId().equals(updatedStudent.getStudentId())) {
-                students.set(i, updatedStudent);
-                break;
-            }
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            for (Student student : students) {
-                writer.write("Name: " + student.getName());
-                writer.newLine();
-                writer.write("Phone Number: " + student.getPhoneNumber());
-                writer.newLine();
-                writer.write("Email: " + student.getEmail());
-                writer.newLine();
-                writer.write("Student ID: " + student.getStudentId());
-                writer.newLine();
-                writer.write("Password: " + student.getPassword());
-                writer.newLine();
-                writer.write("Registered Subject: " +
-                        (student.getRegisteredSubject() != null ? student.getRegisteredSubject().getSubjectName() +
-                                " (" + student.getRegisteredSubject().getSubjectCode() + ")"
-                                : "None"));
-                writer.newLine();
-                writer.write("----------------------------------");
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Error saving student details: " + e.getMessage());
+    for (int i = 0; i < students.size(); i++) {
+        if (students.get(i).getStudentId().equals(updatedStudent.getStudentId())) {
+            students.set(i, updatedStudent); // Update the student in the list
+            break;
         }
     }
+
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+        for (Student student : students) {
+            writer.write("Name: " + student.getName());
+            writer.newLine();
+            writer.write("Phone Number: " + student.getPhoneNumber());
+            writer.newLine();
+            writer.write("Email: " + student.getEmail());
+            writer.newLine();
+            writer.write("Student ID: " + student.getStudentId());
+            writer.newLine();
+            writer.write("Password: " + student.getPassword());
+            writer.newLine();
+            writer.write("Registered Subject: " +
+                    (student.getRegisteredSubject() != null ? student.getRegisteredSubject().getSubjectName() +
+                            " (" + student.getRegisteredSubject().getSubjectCode() + ")"
+                            : "None"));
+            writer.newLine();
+            writer.write("----------------------------------");
+            writer.newLine();
+        }
+    } catch (IOException e) {
+        System.out.println("Error saving student details: " + e.getMessage());
+    }
+
+    // Refresh the global registeredStudents list
+    Main.refreshRegisteredStudents();
+}
+
 }
