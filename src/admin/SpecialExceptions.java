@@ -10,18 +10,18 @@ public class SpecialExceptions {
     private static final String FILE_PATH = "specialExceptions.txt";
 
     public void addSpecialException(String exception) {
-        // Check if the new exception already exists in the list
-        if (specialExceptions.contains("OffDay(\"" + exception + "\")")) {
-            System.out.println("Invalid data. The special exception already exists.");
-            return; // Do not add if it's the same as an old entry
-        }
-
-        // Add the new exception to the list
-        specialExceptions.add("OffDay(\"" + exception + "\")");
-
-        // Save the updated list to file
-        saveSpecialExceptionsToFile();
+    // Ensure the exception is not wrapped in OffDay(...) already
+    if (!exception.startsWith("OffDay(\"")) {
+        exception = "OffDay(\"" + exception + "\")";
     }
+
+    // Check if the exception is already in the list
+    if (!specialExceptions.contains(exception)) {
+        specialExceptions.add(exception); // Add the exception only if it is not already in the list
+    } else {
+        System.out.println("The entered special exception is the same as the previous one.");
+    }
+}
 
     public List<String> getSpecialExceptions() {
         return specialExceptions;

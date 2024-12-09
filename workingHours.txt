@@ -1,8 +1,3 @@
-OffDay: holiday
-OffDay("holiday")
-OffDay("holiday")
-OffDay("holiday")
-OffDay("holiday")
-OffDay("holiday")
-OffDay("holiday")
-OffDay("deepavali")
+Opening Hour: 7:00 AM
+Closing Hour: 7:00 PM
+Break Times: 12:00 PM - 12:22 PM
