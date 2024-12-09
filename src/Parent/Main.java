@@ -116,6 +116,7 @@ public class Main {
                     // Show post-login menu
                     postLoginMenu(scanner, parentServices);
                 }
+                
             }
             else if (choice == 3) {
                 System.out.println("Exiting system...");
@@ -139,7 +140,7 @@ public class Main {
     // Email validation method using regex
     public static boolean isValidEmail(String email) {
         // Regular expression for basic email validation
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String emailRegex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
         return pattern.matcher(email).matches();
     }
@@ -153,32 +154,34 @@ public class Main {
     }
 
     private static void postLoginMenu(Scanner scanner, ParentServices parentServices) {
-        while (true) {
-            // Post-login Menu
-            System.out.println("=== Welcome to Your Parent Dashboard ===");
-            System.out.println("1. Pay Fees Online");
-            System.out.println("2. View Class Timings");
-            System.out.println("3. Track Attendance");
-            System.out.println("4. Access Study Materials");
-            System.out.println("5. Logout");
-            System.out.print("Choose an option: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+    TuitionFee tuitionFee = new TuitionFee();  // Make sure this is initialized
 
-            if (choice == 1) {
-                parentServices.payFees();
-            } else if (choice == 2) {
-                parentServices.viewClassTimings();
-            } else if (choice == 3) {
-                parentServices.trackAttendance();
-            } else if (choice == 4) {
-                parentServices.accessStudyMaterials();
-            } else if (choice == 5) {
-                System.out.println("Logging out...");
-                break;
-            } else {
-                System.out.println("Invalid choice. Please try again.");
-            }
-        }
-    }
+    while (true) {
+        // Post-login Menu
+        System.out.println("=== Welcome to Your Parent Dashboard ===");
+        System.out.println("1. Pay Fees Online");
+        System.out.println("2. View Tuition Fee");
+        System.out.println("3. Track Attendance");
+        System.out.println("4. Access Study Materials");
+        System.out.println("5. Logout");
+        System.out.print("Choose an option: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        if (choice == 1) {
+            parentServices.payFees();
+        } else if (choice == 2) {
+            tuitionFee.displayTuitionFee();  // This is where we call the display method
+        } else if (choice == 3) {
+            parentServices.trackAttendance();
+        } else if (choice == 4) {
+            parentServices.accessStudyMaterials();
+        } else if (choice == 5) {
+            System.out.println("Logging out...");
+            break;
+        } else {
+            System.out.println("Invalid choice. Please try again.");
+        }
+    }
+}
 }
