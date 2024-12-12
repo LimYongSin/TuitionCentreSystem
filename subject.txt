@@ -1,0 +1,4 @@
+Math,200
+English,150
+Science,180
+History,160

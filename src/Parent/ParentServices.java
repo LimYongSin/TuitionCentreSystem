@@ -27,4 +27,9 @@ public class ParentServices {
         System.out.println("Accessing study materials...");
         System.out.println("Study Materials: Math - Chapter 1, Science - Chapter 3");
     }
+    
+    public void viewTuitionFee() {
+    TuitionFee tuitionFee = new TuitionFee();
+    tuitionFee.displayTuitionFee();
+}
 }

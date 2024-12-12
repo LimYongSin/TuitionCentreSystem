@@ -4,12 +4,14 @@ import Parent.Parent;
 import Parent.ParentRegistrationService;
 import Parent.ParentLoginService;
 import Parent.ParentServices;
-import static Parent.ValidationUtils.isValidEmail;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
+import java.util.Arrays;
 
 public class Main {
+    // Hardcoded list of valid student IDs
+    private static final String[] VALID_STUDENT_IDS = {"S12345", "S67890", "S54321", "S09876"};
+
     public static void main(String[] args) {
         ParentRegistrationService registrationService = new ParentRegistrationService();
         ParentLoginService loginService = new ParentLoginService();
@@ -29,6 +31,20 @@ public class Main {
             if (choice == 1) {
                 // Registration
                 System.out.println("=== Parent Registration ===");
+
+                // Check if the student ID is valid
+                String studentId;
+                while (true) {
+                    System.out.print("Enter your student ID: ");
+                    studentId = scanner.nextLine();
+                    if (studentId.isEmpty()) {
+                        System.out.println("Error: Student ID cannot be empty. Please try again.");
+                    } else if (!isValidStudentId(studentId)) {
+                        System.out.println("Error: Invalid Student ID. Please enter a valid ID.");
+                    } else {
+                        break;
+                    }
+                }
 
                 // Check if the name is blank
                 String name;
@@ -56,17 +72,24 @@ public class Main {
                     }
                 }
 
-                // Check if the password is blank
-                String password;
-                while (true) {
-                    System.out.print("Enter your password: ");
-                    password = scanner.nextLine();
-                    if (password.isEmpty()) {
-                        System.out.println("Error: Password cannot be empty. Please try again.");
-                    } else {
-                        break;
-                    }
-                }
+               // Check if the password meets validation criteria
+String password;
+while (true) {
+    System.out.print("Enter your password (min 8 characters, including uppercase, digit, special char): ");
+    password = scanner.nextLine();
+    if (password.isEmpty()) {
+        System.out.println("Error: Password cannot be empty. Please try again.");
+    } else if (!isValidPassword(password)) {
+        System.out.println("Error: Password must be at least 8 characters long and include:");
+        System.out.println("- At least one uppercase letter");
+        System.out.println("- At least one lowercase letter");
+        System.out.println("- At least one digit");
+        System.out.println("- At least one special character (@$!%*?&)");
+    } else {
+        break;
+    }
+}
+
 
                 // Phone number validation
                 String phoneNumber;
@@ -83,7 +106,7 @@ public class Main {
                 }
 
                 // Create the Parent object with the provided information
-                Parent newParent = new Parent(name, email, password, phoneNumber);
+                Parent newParent = new Parent(name, email, password, phoneNumber, studentId);
 
                 // Register the parent using the registration service
                 registrationService.registerParent(newParent);
@@ -94,13 +117,13 @@ public class Main {
                 System.out.println("Name: " + newParent.getName());
                 System.out.println("Email: " + newParent.getEmail());
                 System.out.println("Phone Number: " + newParent.getPhoneNumber());
+                System.out.println("Student ID: " + newParent.getStudentId());
                 System.out.println("Password: ********"); // Password should not be shown for security purposes
                 System.out.println("\nPlease keep your details safe and log in to continue.");
 
                 // Simulate sending a confirmation email
                 sendConfirmationEmail(newParent.getEmail());
-            }
-            else if (choice == 2) {
+            } else if (choice == 2) {
                 // Login
                 System.out.println("=== Parent Login ===");
                 System.out.print("Enter your email: ");
@@ -116,12 +139,10 @@ public class Main {
                     // Show post-login menu
                     postLoginMenu(scanner, parentServices);
                 }
-            }
-            else if (choice == 3) {
+            } else if (choice == 3) {
                 System.out.println("Exiting system...");
                 break;
-            }
-            else {
+            } else {
                 System.out.println("Invalid choice. Please try again.");
             }
         }
@@ -139,7 +160,7 @@ public class Main {
     // Email validation method using regex
     public static boolean isValidEmail(String email) {
         // Regular expression for basic email validation
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String emailRegex = "^[a-zA-Z0-9_+&-]+(?:\\.[a-zA-Z0-9_+&-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
         return pattern.matcher(email).matches();
     }
@@ -152,12 +173,31 @@ public class Main {
         return pattern.matcher(phoneNumber).matches();
     }
 
+    // Validate student ID
+    public static boolean isValidStudentId(String studentId) {
+        return Arrays.asList(VALID_STUDENT_IDS).contains(studentId);
+    }
+    
+    public static boolean isValidPassword(String password) {
+    // Regular expression for a password with:
+    // - Minimum 8 characters
+    // - At least one uppercase letter
+    // - At least one lowercase letter
+    // - At least one digit
+    // - At least one special character (optional)
+    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+    Pattern pattern = Pattern.compile(passwordRegex);
+    return pattern.matcher(password).matches();
+}
+
     private static void postLoginMenu(Scanner scanner, ParentServices parentServices) {
+        TuitionFee tuitionFee = new TuitionFee();  // Make sure this is initialized
+
         while (true) {
             // Post-login Menu
             System.out.println("=== Welcome to Your Parent Dashboard ===");
             System.out.println("1. Pay Fees Online");
-            System.out.println("2. View Class Timings");
+            System.out.println("2. View Tuition Fee");
             System.out.println("3. Track Attendance");
             System.out.println("4. Access Study Materials");
             System.out.println("5. Logout");
@@ -168,7 +208,7 @@ public class Main {
             if (choice == 1) {
                 parentServices.payFees();
             } else if (choice == 2) {
-                parentServices.viewClassTimings();
+                tuitionFee.displayTuitionFee();  // This is where we call the display method
             } else if (choice == 3) {
                 parentServices.trackAttendance();
             } else if (choice == 4) {

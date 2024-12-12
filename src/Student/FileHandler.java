@@ -83,11 +83,11 @@ public class FileHandler {
     //update
   public static void saveStudentDetails(Student updatedStudent) {
     String fileName = "student_registration.txt";
-    List<Student> students = loadStudentDetails(); // Reload all students from file to get the latest data
+    List<Student> students = loadStudentDetails(); 
 
     for (int i = 0; i < students.size(); i++) {
         if (students.get(i).getStudentId().equals(updatedStudent.getStudentId())) {
-            students.set(i, updatedStudent); // Update the student in the list
+            students.set(i, updatedStudent); 
             break;
         }
     }
@@ -116,7 +116,7 @@ public class FileHandler {
         System.out.println("Error saving student details: " + e.getMessage());
     }
 
-    // Refresh the global registeredStudents list
+    
     Main.refreshRegisteredStudents();
 }
 

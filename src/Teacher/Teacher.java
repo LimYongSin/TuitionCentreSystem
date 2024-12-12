@@ -195,7 +195,7 @@ public class Teacher {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter("attendance.txt", true))) {
         writer.write("Class: " + selectedClass + ", Student: " + studentName + ", Status: " + status);
         writer.newLine();
-        System.out.println("Attendance marked successfully for " + studentName + " in class " + selectedClass + " as " + status + ".");
+        System.out.println("Attendance marked successfully for " + studentName + " in " + selectedClass + " as " + status + ".");
         System.out.println("___________________________________________");
     } catch (IOException e) {
         System.out.println("An error occurred while saving attendance.");
