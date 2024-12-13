@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Sprint3 {
 
-     private static final String STUDENTS_FILE = "sprint3.txt"; // File to store student database
+    private static final String STUDENTS_FILE = "sprint3.txt"; // File to store student database
     private static final String REMARKS_FILE = "remarks.txt";  // File to store remarks
 
     public static void main(String[] args) {
