@@ -28,32 +28,32 @@ public class Payment {
                 continue;
             }
 
-            // If fee is zero or empty, notify that no payment is required
+          
             if (fee.equals("0") || fee.isEmpty()) {
                 System.out.println("Hi " + studentId + ", there is no tuition fee to pay.");
-                return; // End the payment process
+                return; 
             }
 
             System.out.println("Tuition Fee for Student ID " + studentId + ": RM" + fee);
             System.out.println(); // Add space
 
-            // Proceed with payment
+            
             String cardNumber, expirationDate, cvv;
 
-            // Card Number Validation
+          
             while (true) {
                 System.out.print("Enter Debit Card Number (16 digits): ");
                 cardNumber = scanner.nextLine().trim();
                 if (cardNumber.isEmpty()) {
                     System.out.println("Error: Card number cannot be blank.");
-                    System.out.println(); // Add space
+                    System.out.println(); 
                 } else if (!isValidCardNumber(cardNumber)) {
                     if (cardNumber.matches(".*[a-zA-Z].*")) {
                         System.out.println("Error: Card number cannot contain letters.");
-                        System.out.println(); // Add space
+                        System.out.println(); 
                     } else {
                         System.out.println("Error: Card number must be exactly 16 digits.");
-                        System.out.println(); // Add space
+                        System.out.println(); 
                     }
                 } else {
                     break;
@@ -106,6 +106,9 @@ public class Payment {
             System.out.println("Student ID: " + studentId);
             System.out.println("RM: " + fee);
             System.out.println("=====================");
+
+          
+            updateTuitionFee(studentId);
             return;
         }
     }
@@ -125,18 +128,50 @@ public class Payment {
         return null;
     }
 
+    private static void updateTuitionFee(String studentId) {
+        try {
+            // Read the original file into a list
+            List<String> lines = new ArrayList<>();
+            try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] data = line.split(",");
+                    // Check if the current line matches the student ID
+                    if (data[0].equals(studentId)) {
+                        // Update the fee to 0 for the matching student
+                        lines.add(data[0] + ",0");
+                    } else {
+                        // Keep other entries unchanged
+                        lines.add(line);
+                    }
+                }
+            }
+
+            // Write the updated lines back to the same file
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+                for (String updatedLine : lines) {
+                    writer.write(updatedLine);
+                    writer.newLine();
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error updating tuition fee file: " + e.getMessage());
+        }
+    }
+
     private static boolean isValidCardNumber(String cardNumber) {
-        // Ensure the card number is exactly 16 digits and contains only numbers (no letters or special characters)
+      
         return cardNumber.matches("\\d{16}");
     }
 
     private static boolean isValidExpirationDate(String expirationDate) {
-        // Ensure the expiration date is in MM/YY format
+     
         return expirationDate.matches("(0[1-9]|1[0-2])/\\d{2}");
     }
 
     private static boolean isValidCVV(String cvv) {
-        // Ensure CVV is exactly 3 digits
+     
         return cvv.matches("\\d{3}");
     }
 }
