@@ -19,7 +19,7 @@ public class Sprint3 {
             System.out.println("\nMain Menu:");
             System.out.println("1. Add Remarks for Students");
             System.out.println("2. Exit");
-            System.out.print("Option: ");
+            System.out.print("Option*: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -48,7 +48,7 @@ public class Sprint3 {
         String studentName;
 
         while (true) {
-            System.out.print("\nEnter the student's name: ");
+            System.out.print("\nEnter the student's name*: ");
             studentName = scanner.nextLine().trim();
 
             if (studentName.isEmpty()) {
@@ -64,12 +64,21 @@ public class Sprint3 {
             break;
         }
 
-        System.out.print("Enter remarks for " + studentName + ": ");
+        System.out.print("Enter remarks for " + studentName + " *: ");
         String remarks = scanner.nextLine().trim();
 
         if (remarks.isEmpty()) {
             System.out.println("Error: Remarks cannot be blank or contain only whitespace.");
             return;
+        }
+        
+        // Check for offensive or inappropriate language
+        String[] bannedWords = {"tmd", "md", "fuck", "fuckyou", "niama"}; // Replace with actual banned words
+        for (String banned : bannedWords) {
+            if (remarks.toLowerCase().contains(banned.toLowerCase())) {
+                System.out.println("Error: Remarks contain inappropriate or offensive language.");
+                return;
+            }
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(REMARKS_FILE, true))) {
@@ -95,16 +104,27 @@ public class Sprint3 {
             System.out.println((i + 1) + ". " + classes[i]);
         }
 
-        System.out.print("Select a class by number: ");
-        int classChoice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        while (true) {
+            System.out.print("Select a class by number*: ");
+            String input = scanner.nextLine().trim();
 
-        if (classChoice < 1 || classChoice > classes.length) {
-            System.out.println("Invalid class selection. Please try again.");
-            return null;
+            if (input.isEmpty()) {
+                System.out.println("Error: Class selection cannot be blank. Please enter a valid number.");
+                continue;
+            }
+
+            try {
+                int classChoice = Integer.parseInt(input);
+
+                if (classChoice < 1 || classChoice > classes.length) {
+                    System.out.println("Invalid class selection. Please try again.");
+                } else {
+                    return classes[classChoice - 1];
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Please enter a valid number for class selection.");
+            }
         }
-
-        return classes[classChoice - 1];
     }
 
     private static boolean isStudentInDatabase(String selectedClass, String studentName) {
@@ -128,5 +148,3 @@ public class Sprint3 {
         return false;
     }
 }
-
-
