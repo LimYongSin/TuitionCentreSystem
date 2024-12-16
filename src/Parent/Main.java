@@ -1,9 +1,6 @@
 package Parent;
 
-import Parent.Parent;
-import Parent.ParentRegistrationService;
-import Parent.ParentLoginService;
-import Parent.ParentServices;
+
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.Arrays;
@@ -30,49 +27,35 @@ public class Main {
 
             if (choice == 1) {
                 // Registration
-                System.out.println("=== Parent Registration ===");
+System.out.println("=== Parent Registration ===");
 
-                // Check if the student ID is valid
-                String studentId;
-                while (true) {
-                    System.out.print("Enter your student ID: ");
-                    studentId = scanner.nextLine();
-                    if (studentId.isEmpty()) {
-                        System.out.println("Error: Student ID cannot be empty. Please try again.");
-                    } else if (!isValidStudentId(studentId)) {
-                        System.out.println("Error: Invalid Student ID. Please enter a valid ID.");
-                    } else {
-                        break;
-                    }
-                }
+// Check if the name is blank
+String name;
+while (true) {
+    System.out.print("Enter your name: ");
+    name = scanner.nextLine();
+    if (name.isEmpty()) {
+        System.out.println("Error: Name cannot be empty. Please try again.");
+    } else {
+        break;
+    }
+}
 
-                // Check if the name is blank
-                String name;
-                while (true) {
-                    System.out.print("Enter your name: ");
-                    name = scanner.nextLine();
-                    if (name.isEmpty()) {
-                        System.out.println("Error: Name cannot be empty. Please try again.");
-                    } else {
-                        break;
-                    }
-                }
+// Email validation
+String email;
+while (true) {
+    System.out.print("Enter your email: ");
+    email = scanner.nextLine();
+    if (email.isEmpty()) {
+        System.out.println("Error: Email cannot be empty. Please try again.");
+    } else if (!isValidEmail(email)) {
+        System.out.println("Error: Invalid email format. Please enter a valid email.");
+    } else {
+        break;
+    }
+}
 
-                // Email validation
-                String email;
-                while (true) {
-                    System.out.print("Enter your email: ");
-                    email = scanner.nextLine();
-                    if (email.isEmpty()) {
-                        System.out.println("Error: Email cannot be empty. Please try again.");
-                    } else if (!isValidEmail(email)) {
-                        System.out.println("Error: Invalid email format. Please enter a valid email.");
-                    } else {
-                        break;
-                    }
-                }
-
-               // Check if the password meets validation criteria
+// Password validation
 String password;
 while (true) {
     System.out.print("Enter your password (min 8 characters, including uppercase, digit, special char): ");
@@ -90,39 +73,37 @@ while (true) {
     }
 }
 
+// Phone number validation
+String phoneNumber;
+while (true) {
+    System.out.print("Enter your phone number (e.g., 1234567890): ");
+    phoneNumber = scanner.nextLine();
+    if (phoneNumber.isEmpty()) {
+        System.out.println("Error: Phone number cannot be empty. Please try again.");
+    } else if (!isValidPhoneNumber(phoneNumber)) {
+        System.out.println("Error: Invalid phone number format. Please enter a valid 10-digit number.");
+    } else {
+        break;
+    }
+}
 
-                // Phone number validation
-                String phoneNumber;
-                while (true) {
-                    System.out.print("Enter your phone number (e.g., 1234567890): ");
-                    phoneNumber = scanner.nextLine();
-                    if (phoneNumber.isEmpty()) {
-                        System.out.println("Error: Phone number cannot be empty. Please try again.");
-                    } else if (!isValidPhoneNumber(phoneNumber)) {
-                        System.out.println("Error: Invalid phone number format. Please enter a valid 10-digit number.");
-                    } else {
-                        break;
-                    }
-                }
+// Create the Parent object without the student ID
+Parent newParent = new Parent(name, email, password, phoneNumber, null);
 
-                // Create the Parent object with the provided information
-                Parent newParent = new Parent(name, email, password, phoneNumber, studentId);
+// Register the parent using the registration service
+registrationService.registerParent(newParent);
 
-                // Register the parent using the registration service
-                registrationService.registerParent(newParent);
+// Display the parent's details on the confirmation page
+System.out.println("\n=== Registration Successful ===");
+System.out.println("Thank you for registering! Here are your details:");
+System.out.println("Name: " + newParent.getName());
+System.out.println("Email: " + newParent.getEmail());
+System.out.println("Phone Number: " + newParent.getPhoneNumber());
+System.out.println("Password: ********"); // Password should not be shown for security purposes
+System.out.println("\nPlease keep your details safe and log in to continue.");
 
-                // Display the parent's details on the confirmation page
-                System.out.println("\n=== Registration Successful ===");
-                System.out.println("Thank you for registering! Here are your details:");
-                System.out.println("Name: " + newParent.getName());
-                System.out.println("Email: " + newParent.getEmail());
-                System.out.println("Phone Number: " + newParent.getPhoneNumber());
-                System.out.println("Student ID: " + newParent.getStudentId());
-                System.out.println("Password: ********"); // Password should not be shown for security purposes
-                System.out.println("\nPlease keep your details safe and log in to continue.");
-
-                // Simulate sending a confirmation email
-                sendConfirmationEmail(newParent.getEmail());
+// Simulate sending a confirmation email
+sendConfirmationEmail(newParent.getEmail());
             } else if (choice == 2) {
                 // Login
                 System.out.println("=== Parent Login ===");
@@ -191,34 +172,86 @@ while (true) {
 }
 
     private static void postLoginMenu(Scanner scanner, ParentServices parentServices) {
-        TuitionFee tuitionFee = new TuitionFee();  // Make sure this is initialized
+    TuitionFee tuitionFee = new TuitionFee(); // Instantiate TuitionFee object
 
-        while (true) {
-            // Post-login Menu
-            System.out.println("=== Welcome to Your Parent Dashboard ===");
-            System.out.println("1. Pay Fees Online");
-            System.out.println("2. View Tuition Fee");
-            System.out.println("3. Track Attendance");
-            System.out.println("4. Access Study Materials");
-            System.out.println("5. Logout");
-            System.out.print("Choose an option: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+    while (true) {
+        System.out.println("\n=== Welcome to Your Parent Dashboard ===");
+        System.out.println("1. Pay Fees Online");
+        System.out.println("2. View Tuition Fee");
+        System.out.println("3. Enroll in a Class");
+        System.out.println("4. Track Attendance");
+        System.out.println("5. Access Study Materials");
+        System.out.println("6. Logout");
+        System.out.print("Choose an option: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
 
-            if (choice == 1) {
-                parentServices.payFees();
-            } else if (choice == 2) {
-                tuitionFee.displayTuitionFee();  // This is where we call the display method
-            } else if (choice == 3) {
-                parentServices.trackAttendance();
-            } else if (choice == 4) {
-                parentServices.accessStudyMaterials();
-            } else if (choice == 5) {
-                System.out.println("Logging out...");
-                break;
-            } else {
-                System.out.println("Invalid choice. Please try again.");
-            }
+        if (choice == 1) {
+            parentServices.payFees();
+        } else if (choice == 2) {
+            System.out.print("Enter Student ID to view tuition fee: ");
+            String studentId = scanner.nextLine();
+            tuitionFee.displayTuitionFee(studentId); // Display tuition fee and enrolled classes
+        } else if (choice == 3) {
+            System.out.print("Enter Student ID to enroll in a class: ");
+            String studentId = scanner.nextLine();
+
+            System.out.println("Available Classes:");
+            System.out.println("  - Math");
+            System.out.println("  - Science");
+            System.out.println("  - English");
+            System.out.println("  - History");
+            System.out.print("Enter class name to enroll: ");
+            String className = scanner.nextLine();
+
+            tuitionFee.enrollClass(studentId, className); // Enroll student in a class
+        } else if (choice == 4) {
+            attendanceSubMenu(scanner, parentServices);
+        } else if (choice == 5) {
+            parentServices.accessStudyMaterials();
+        } else if (choice == 6) {
+            System.out.println("Logging out...");
+            break;
+        } else {
+            System.out.println("Invalid choice. Please try again.");
         }
     }
+
+
+}
+    private static void attendanceSubMenu(Scanner scanner, ParentServices parentServices) {
+    while (true) {
+        System.out.println("\n=== Attendance Dashboard ===");
+        System.out.println("1. View Attendance Summary");
+        System.out.println("2. View Detailed Attendance Records");
+        System.out.println("3. Set Low Attendance Alert");
+        System.out.println("4. Back to Main Menu");
+        System.out.print("Choose an option: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        if (choice == 1) {
+            System.out.print("Enter Student ID: ");
+            String studentId = scanner.nextLine();
+            parentServices.viewAttendanceSummary(studentId);
+        } else if (choice == 2) {
+            System.out.print("Enter Student ID: ");
+            String studentId = scanner.nextLine();
+            parentServices.viewDetailedAttendance(studentId);
+        } else if (choice == 3) {
+            System.out.print("Enter Student ID: ");
+            String studentId = scanner.nextLine();
+            System.out.print("Set attendance threshold percentage (e.g., 75 for 75%): ");
+            int threshold = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+            parentServices.setAttendanceAlert(studentId, threshold);
+        } else if (choice == 4) {
+            System.out.println("Returning to main menu...");
+            break;
+        } else {
+            System.out.println("Invalid choice. Please try again.");
+        }
+    }
+}
+
 }
